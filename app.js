@@ -4,6 +4,7 @@ const passport = require("passport");
 require("./config/passport")(passport);
 const authRouter = require("./routes/authRouter");
 const cors = require('cors');
+const postRouter = require('./routes/postRouter');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.static('public'));
 app.use(passport.initialize());
 
 app.use('/auth', authRouter);
+app.use('/posts', postRouter);
 
 const PORT = process.env.PORT || 3000;
 
