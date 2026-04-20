@@ -72,7 +72,12 @@ async function getAdminPosts(req, res) {
   try {
     const posts = await prisma.post.findMany({
       where: { authorId: req.user.id },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: {
+          select: { comments: true }
+        }
+      }
     });
     res.json(posts);
   } catch (err) {
