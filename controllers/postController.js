@@ -45,7 +45,7 @@ async function getPostById(req, res) {
       }
     });
 
-    if (!post || !post.published) {
+    if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
@@ -60,7 +60,7 @@ async function getPublishedPosts(req, res) {
     const posts = await prisma.post.findMany({
       where: { published: true },
       orderBy: { createdAt: 'desc' },
-      include: { author: { select: { username: true } } } // Join user table for the name
+      include: { author: { select: { username: true } } }
     });
     res.json(posts);
   } catch (err) {
