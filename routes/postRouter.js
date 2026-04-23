@@ -32,6 +32,15 @@ postRouter.put(
   postController.updatePost
 );
 
+postRouter.patch("/:postId", async (req, res) => {
+  const { published } = req.body;
+  const post = await prisma.post.update({
+    where: { id: req.params.id },
+    data: { published }, // Prisma's update is a partial update by default
+  });
+  res.json(post);
+});
+
 postRouter.delete(
   "/:postId", 
   passport.authenticate("jwt", { session: false }), 
