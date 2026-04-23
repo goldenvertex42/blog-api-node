@@ -59,8 +59,15 @@ async function getPublishedPosts(req, res) {
   try {
     const posts = await prisma.post.findMany({
       where: { published: true },
-      orderBy: { createdAt: 'desc' },
-      include: { author: { select: { username: true } } }
+      include: {
+        author: {
+          select: { username: true }
+        },
+        _count: {
+          select: { comments: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
     });
     res.json(posts);
   } catch (err) {
