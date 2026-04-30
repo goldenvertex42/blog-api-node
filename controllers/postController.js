@@ -110,6 +110,25 @@ async function updatePost(req, res) {
   }
 }
 
+
+const togglePublish = async (req, res) => {
+  try {
+    const { published } = req.body;
+    const { postId } = req.params;
+
+    const post = await prisma.post.update({
+      where: { id: parseInt(postId) },
+      data: { published: Boolean(published) },
+    });
+
+    res.json(post);
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res.status(500).json({ error: "Failed to update post" });
+  }
+};
+
+
 async function deletePost(req, res) {
   const { postId } = req.params;
 
@@ -139,5 +158,6 @@ module.exports = {
   getPublishedPosts,
   getAdminPosts,
   updatePost,
+  togglePublish,
   deletePost
 }
