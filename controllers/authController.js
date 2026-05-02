@@ -52,7 +52,15 @@ const validateUserRegistration = [
         throw new Error('Passwords do not match');
       }
       return true;
-    })
+    }),
+  body("adminCode")
+  .optional({ checkFalsy: true })
+  .custom((value) => {
+    if (value && value !== process.env.ADMIN_SECRET_CODE) {
+      throw new Error("Invalid Admin Code. Please check your credentials or register as a Reader.");
+    }
+    return true;
+  }),
 ];
 
 const validateUserLogin = [
@@ -68,7 +76,8 @@ async function registerPost(req, res) {
   
   const { email, password, username, firstName, lastName, adminCode } = req.body;
   
-  const isAuthor = adminCode === process.env.ADMIN_SECRET_CODE;
+  const isAuthor = Boolean(adminCode && adminCode === process.env.ADMIN_SECRET_CODE);
+  
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
