@@ -2,9 +2,9 @@ require('dotenv').config();
 const express = require("express");
 const passport = require("passport");
 require("./config/passport")(passport);
-const authRouter = require("./routes/authRouter");
 const cors = require('cors');
-const postRouter = require('./routes/postRouter');
+const authRouter = require("./modules/auth/auth.router");
+const postRouter = require('./modules/posts/posts.router');
 
 const app = express();
 
@@ -18,12 +18,4 @@ app.use(passport.initialize());
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 
-const PORT = process.env.PORT || 3000;
-
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-server.on('error', (err) => {
-  console.error('Server failed to start:', err);
-});
+module.exports = app;

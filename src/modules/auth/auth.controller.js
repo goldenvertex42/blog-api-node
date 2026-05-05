@@ -1,4 +1,4 @@
-const prisma = require("../lib/prisma");
+const prisma = require("../../lib/prisma");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
@@ -77,7 +77,7 @@ async function registerPost(req, res) {
   const { email, password, username, firstName, lastName, adminCode } = req.body;
   
   const isAuthor = Boolean(adminCode && adminCode === process.env.ADMIN_SECRET_CODE);
-  
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 

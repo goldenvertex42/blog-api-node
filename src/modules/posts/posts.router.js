@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const postRouter = Router();
-const postController = require("../controllers/postController");
-const commentController = require("../controllers/commentController");
+const postController = require("./posts.controller");
+const commentController = require("./posts.comments.controller");
 const passport = require("passport");
 
 const checkAuthor = (req, res, next) => {
